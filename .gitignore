@@ -1,0 +1,9 @@
+# *
+._*
+.DS_Store
+*.pyc
+.idea
+._*
+
+/public/.htaccess
+/data/logs/*.log
