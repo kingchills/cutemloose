@@ -1,6 +1,6 @@
 [submodule "library/Bear"]
 	path = library/Bear
-	url = https://git.sierrabravo.net/BEAR.git
+	url = https://dbrown@git.nerderylabs.com/BEAR.git
 [submodule "library/Zend"]
 	path = library/Zend
-	url = https://git.sierrabravo.net/ZendFramework.git
+	url = https://dbrown@git.nerderylabs.com/ZendFramework.git
