@@ -5,5 +5,5 @@
 .idea
 ._*
 
-/public/.htaccess
-/data/logs/*.log
+public/.htaccess
+data/logs/*.log
