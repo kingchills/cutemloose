@@ -257,4 +257,9 @@ class Users_Model_DbTable_Users_Row
 
         return $details;
     }
+
+    public function getFriendlyName()
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
 }

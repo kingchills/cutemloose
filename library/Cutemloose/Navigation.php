@@ -43,6 +43,7 @@ class Cutemloose_Navigation
                     'controller' => 'manage',
                     'action'     => 'edit',
                     'route'      => 'edit-user',
+                    'visible'    => $currentUser->getRoleId() != Users_Model_DbTable_Users::ROLE_GUEST,
                     'params'     => array(
                         'id'     => $currentUser->id,
                     )

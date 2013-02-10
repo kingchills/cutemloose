@@ -42,13 +42,40 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initLayout()
     {
-        $this->bootstrap('mainNav');
+        $this->bootstrap('frontController')
+             ->bootstrap('modules')
+             ->bootstrap('currentUser')
+             ->bootstrap('mainNav');
 
         $layout = Zend_Layout::startMvc(APPLICATION_PATH . '/layouts/scripts');
 
+        $currentUser = Zend_Controller_Action_HelperBroker::getStaticHelper('currentUser')->getCurrentUser();
+
+        $loggedIn = $currentUser->getRoleId() != Users_Model_DbTable_Users::ROLE_GUEST;
+
         $layout->assign('mainNav', $this->getResource('mainNav'));
+        $layout->assign('currentUser', $currentUser);
+        $layout->assign('loggedIn', $loggedIn);
 
         return $layout;
+    }
+
+    protected function _initRoutes()
+    {
+        $router = $this->bootstrap('frontcontroller')
+                       ->getResource('frontcontroller')
+                       ->getRouter();
+
+        $router->addRoute(
+            'home',
+            new Zend_Controller_Router_Route(
+                '/',
+                array(
+                    'controller' => 'index',
+                    'action' => 'index'
+                )
+            )
+        );
     }
 
 

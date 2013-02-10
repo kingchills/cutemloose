@@ -205,6 +205,7 @@ class Users_Bootstrap extends Zend_Application_Module_Bootstrap
             /** @var $currentUser Users_Model_DbTable_Users_Row */
             $currentUser = $this->getResource('userDbTable')->createRow();
             $currentUser->role = Users_Model_DbTable_Users::ROLE_GUEST;
+            $currentUser->firstName = 'Guest';
             $currentUser->setReadOnly(true);
         } else {
             $currentUser = $this->getResource('userDbTable')
@@ -258,6 +259,18 @@ class Users_Bootstrap extends Zend_Application_Module_Bootstrap
                     'module' => 'users',
                     'controller' => 'account',
                     'action' => 'login'
+                )
+            )
+        );
+
+        $router->addRoute(
+            'logout',
+            new Zend_Controller_Router_Route(
+                '/logout',
+                array(
+                    'module' => 'users',
+                    'controller' => 'account',
+                    'action' => 'logout'
                 )
             )
         );
