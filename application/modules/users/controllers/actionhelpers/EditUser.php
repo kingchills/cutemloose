@@ -36,19 +36,47 @@ class Users_Controller_ActionHelper_EditUser
     protected $_user;
 
     /**
+     * @var Users_Model_DbTable_UserDetails_Row
+     */
+    protected $_userDetails;
+
+    /**
      * Save the new user
      * 
      * @return Users_Controller_ActionHelper_EditUser
      */
     public function execute()
     {
+        $role = $this->getForm()->getValue("role");
+        $status = $this->getForm()->getValue("status");
+        if (empty($role)) {
+            $role = $this->getUser()->role;
+        }
+
+        if (empty($status)) {
+            $status = $this->getUser()->status;
+        }
+
         $this->getUser()->email     = $this->getForm()->getValue("emailAddress");
         $this->getUser()->firstName = $this->getForm()->getValue("firstName");
         $this->getUser()->lastName  = $this->getForm()->getValue("lastName");
-        $this->getUser()->role      = $this->getForm()->getValue("role");
-        $this->getUser()->status    = $this->getForm()->getValue("status");
-        
+        $this->getUser()->role      = $role;
+        $this->getUser()->status    = $status;
+
         $this->getUser()->save();
+
+        $details = $this->getUserDetails();
+
+        $detailsForm           = $this->getForm()->getSubForm('details');
+        $details->address      = $detailsForm->getValue('address');
+        $details->address_cont = $detailsForm->getValue('address_cont');
+        $details->city         = $detailsForm->getValue('city');
+        $details->state        = $detailsForm->getValue('state');
+        $details->zip          = $detailsForm->getValue('zip');
+        $details->phone        = $detailsForm->getValue('phone');
+
+        $details->save();
+
 
         return $this;
     }
@@ -67,6 +95,25 @@ class Users_Controller_ActionHelper_EditUser
                     "user" => $this->getUser(),
                 )
             );
+
+            $subForm = new Users_Form_UserDetails(
+                array(
+                    "user" => $this->getUser(),
+                )
+            );
+
+            $subForm->populate(
+                array(
+                    'address'      => $this->getUserDetails()->address,
+                    'address_cont' => $this->getUserDetails()->address_cont,
+                    'city'         => $this->getUserDetails()->city,
+                    'state'        => $this->getUserDetails()->state,
+                    'zip'          => $this->getUserDetails()->zip,
+                    'phone'        => $this->getUserDetails()->phone
+                )
+            );
+
+            $this->_form->addSubForm($subForm, 'details', 6);
 
             $this->_form->populate(
                 array(
@@ -118,4 +165,29 @@ class Users_Controller_ActionHelper_EditUser
         $this->_user = $user;
         return $this;
     }
+
+    /**
+     * @param \Users_Model_DbTable_UserDetails_Row $userDetails
+     * @return Users_Controller_ActionHelper_EditUser
+     */
+    public function setUserDetails($userDetails)
+    {
+        $this->_userDetails = $userDetails;
+
+        return $this;
+    }
+
+    /**
+     * @return \Users_Model_DbTable_UserDetails_Row
+     */
+    public function getUserDetails()
+    {
+        if (!$this->_userDetails) {
+            $this->_userDetails = $this->_user->getDetails();
+        }
+
+        return $this->_userDetails;
+    }
+
+
 }

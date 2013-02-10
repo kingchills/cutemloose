@@ -238,4 +238,23 @@ class Users_Model_DbTable_Users_Row
             array('Authentication successful.')
         );
     }
+
+    /**
+     * Get our user details
+     *
+     * @return Zend_Db_Table_Row_Abstract
+     */
+    public function getDetails()
+    {
+        $detailsModel = new Users_Model_DbTable_UserDetails();
+
+        $details = $detailsModel->find($this->id)->current();
+
+        if (empty($details)) {
+            $details = $detailsModel->createRow();
+            $details->id = $this->id;
+        }
+
+        return $details;
+    }
 }

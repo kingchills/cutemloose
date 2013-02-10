@@ -91,7 +91,9 @@ class Users_ManageController extends Zend_Controller_Action
         
         $this->_helper->assertResourceExists($user);
 
-        $this->_helper->assertIsAllowed($this->_helper->currentUser(), $user, 'edit');
+        if ($user->id != $this->_helper->currentUser()->id) {
+            $this->_helper->assertIsAllowed($this->_helper->currentUser(), $user, 'edit');
+        }
 
         /** @var $editUserHelper Users_Controller_ActionHelper_EditUser */
         $editUserHelper       = $this->_helper->editUser;
