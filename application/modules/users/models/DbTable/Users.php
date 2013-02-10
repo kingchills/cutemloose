@@ -29,6 +29,16 @@ class Users_Model_DbTable_Users extends Zend_Db_Table
      * @var string
      */
     const ROLE_USER = 'user';
+
+    /**
+     * @var string
+     */
+    const ROLE_GUEST = 'guest';
+
+    /**
+     * @var string
+     */
+    const RESOURCE_USER = 'user';
     
     /**
      * @var string
@@ -56,6 +66,7 @@ class Users_Model_DbTable_Users extends Zend_Db_Table
     public static $roles = array(
         self::ROLE_ADMIN => 'Administrator',
         self::ROLE_USER  => 'User',
+        self::ROLE_GUEST => 'Guest',
     );
 
     /**

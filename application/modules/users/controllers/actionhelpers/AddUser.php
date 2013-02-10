@@ -42,11 +42,21 @@ class Users_Controller_ActionHelper_AddUser
      */
     public function execute()
     {
+        $role = $this->getForm()->getValue("role");
+        $status = $this->getForm()->getValue("status");
+        if (empty($role)) {
+            $role = Users_Model_DbTable_Users::ROLE_USER;
+        }
+
+        if (empty($status)) {
+            $status = Users_Model_DbTable_Users::STATUS_ENABLED;
+        }
+
         $this->getUser()->email     = $this->getForm()->getValue("emailAddress");
         $this->getUser()->firstName = $this->getForm()->getValue("firstName");
         $this->getUser()->lastName  = $this->getForm()->getValue("lastName");
-        $this->getUser()->role      = $this->getForm()->getValue("role");
-        $this->getUser()->status    = $this->getForm()->getValue("status");
+        $this->getUser()->role      = $role;
+        $this->getUser()->status    = $status;
         
         $this->getUser()->setPassword($this->getForm()->getValue("password"));
 

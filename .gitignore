@@ -4,6 +4,9 @@
 *.pyc
 .idea
 ._*
-
+VagrantFile
+.vagrant
+README.md
+puppet/*
 public/.htaccess
 data/logs/*.log

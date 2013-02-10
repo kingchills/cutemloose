@@ -102,14 +102,19 @@ class Users_Bootstrap extends Zend_Application_Module_Bootstrap
          */
         $adminRole = new Zend_Acl_Role(Users_Model_DbTable_Users::ROLE_ADMIN);
         $userRole  = new Zend_Acl_Role(Users_Model_DbTable_Users::ROLE_USER);
+        $guestRole = new Zend_Acl_Role(Users_Model_DbTable_Users::ROLE_GUEST);
         
-        $acl->addRole($userRole)
+        $acl->addRole($guestRole)
+            ->addRole($userRole)
             ->addRole($adminRole, $userRole);
 
         /**
          * Resources
          */
-        $userResource = new Zend_Acl_Resource("user");
+        $userResource  = new Zend_Acl_Resource(Users_Model_DbTable_Users::RESOURCE_USER);
+        $dogResource   = new Zend_Acl_Resource("dog");
+        $eventResource = new Zend_Acl_Resource("event");
+        $clubResource  = new Zend_Acl_Resource("club");
         
         $acl->addResource($userResource);
 
@@ -197,12 +202,14 @@ class Users_Bootstrap extends Zend_Application_Module_Bootstrap
         $identity = $this->getResource('auth')->getIdentity();
 
         if (! $identity) {
-            $this->_setResourceToApplication('currentuser', null);
-            return null;
+            /** @var $currentUser Users_Model_DbTable_Users_Row */
+            $currentUser = $this->getResource('userDbTable')->createRow();
+            $currentUser->role = Users_Model_DbTable_Users::ROLE_GUEST;
+            $currentUser->setReadOnly(true);
+        } else {
+            $currentUser = $this->getResource('userDbTable')
+                ->findByEmail($identity);
         }
-
-        $currentUser = $this->getResource('userDbTable')
-                            ->findByEmail($identity);
 
         /** @var $currentUserHelper Bear_Controller_Action_Helper_CurrentUser */
         $currentUserHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('currentUser');
@@ -251,6 +258,31 @@ class Users_Bootstrap extends Zend_Application_Module_Bootstrap
                     'module' => 'users',
                     'controller' => 'account',
                     'action' => 'login'
+                )
+            )
+        );
+
+        $router->addRoute(
+            'register',
+            new Zend_Controller_Router_Route(
+                '/register',
+                array(
+                    'module' => 'users',
+                    'controller' => 'account',
+                    'action' => 'register'
+                )
+            )
+        );
+
+        $router->addRoute(
+            'edit-user',
+            new Zend_Controller_Router_Route(
+                'user/:id',
+                array(
+                    'module' => 'users',
+                    'controller' => 'manage',
+                    'action' => 'edit',
+                    'id'     => ''
                 )
             )
         );

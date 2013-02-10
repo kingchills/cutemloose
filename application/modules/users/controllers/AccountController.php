@@ -19,6 +19,48 @@
  */
 class Users_AccountController extends Zend_Controller_Action
 {
+    /**
+     * Register User Action
+     *
+     * @return Void
+     */
+    public function registerAction()
+    {
+        $userModel = new Users_Model_DbTable_Users();
+        $user = $userModel->createRow();
+
+        /** @var $addUserHelper Users_Controller_ActionHelper_AddUser */
+        $addUserHelper = $this->_helper->addUser;
+        /** @var $loginHelper Users_Controller_ActionHelper_Login */
+        $loginHelper = $this->_helper->login;
+
+
+        $addUserHelper->setUser($user);
+
+        if ($this->getRequest()->isPost()) {
+            $post = $this->getRequest()->getPost();
+            if ($addUserHelper->isValid($post)) {
+                $addUserHelper->execute();
+
+                $loginHelper->setSessionNamespace(new Zend_Session_Namespace("login"));
+
+                if ($loginHelper->isValid($post)) {
+                    $loginHelper->execute();
+                }
+
+                $this->_helper
+                     ->flashMessenger
+                     ->setNamespace('success')
+                     ->addMessage("You have been added to our system, please fill out your personal details in the profile tab.");
+
+                $this->_helper
+                     ->redirector
+                     ->gotoRoute(array('controller' => 'manage', 'action' => 'edit', 'id' => $user->id));
+            }
+        }
+
+        $this->view->form = $addUserHelper->getForm();
+    }
         
     /**
      * Login Action

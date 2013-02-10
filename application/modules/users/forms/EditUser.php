@@ -65,6 +65,11 @@ class Users_Form_EditUser extends Bear_Form
      */
     public function init()
     {
+        /** @var $formHelper Cutemloose_Controller_Action_Helper_Form */
+        $formHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('form');
+        $acl = $formHelper->getAcl();
+        $user = $formHelper->getCurrentUser();
+
         $this->addElement(
             $this->createElement("text", "emailAddress")
                  ->setLabel("Email Address")
@@ -94,22 +99,24 @@ class Users_Form_EditUser extends Bear_Form
                  ->setOrder(3)
         );
 
-        $this->addElement(
-            $this->createElement("select", "role")
-                 ->setLabel("Role")
-                 ->setRequired(true)
-                 ->addMultiOptions(Users_Model_DbTable_Users::$roles)
-                 ->setOrder(4)
-        );
+        if ($acl->isAllowed($user->getRoleId(), Users_Model_DbTable_Users::RESOURCE_USER)) {
+            $this->addElement(
+                $this->createElement("select", "role")
+                    ->setLabel("Role")
+                    ->setRequired(true)
+                    ->addMultiOptions(Users_Model_DbTable_Users::$roles)
+                    ->setOrder(4)
+            );
 
 
-        $this->addElement(
-            $this->createElement("select", "status")
-                 ->setLabel("Status")
-                 ->setRequired(true)
-                 ->addMultiOptions(Users_Model_DbTable_Users::$statuses)
-                 ->setOrder(5)
-        );
+            $this->addElement(
+                $this->createElement("select", "status")
+                    ->setLabel("Status")
+                    ->setRequired(true)
+                    ->addMultiOptions(Users_Model_DbTable_Users::$statuses)
+                    ->setOrder(5)
+            );
+        }
 
         $this->addElement(
             $this->createElement("submit", "submit")
