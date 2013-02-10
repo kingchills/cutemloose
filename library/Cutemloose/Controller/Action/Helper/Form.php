@@ -9,7 +9,7 @@
 /**
  * Class: Cutemloose_Form extends Bear_Form
  *
- * Description:
+ * Description: Action helper to get user and acl details for forms.
  *
  * Details:
  *
@@ -20,13 +20,23 @@
 class Cutemloose_Controller_Action_Helper_Form extends Zend_Controller_Action_Helper_Abstract
 {
 
-    protected $currentUser;
+    /**
+     * @var Users_Model_DbTable_Users_Row
+     */
+    protected $_currentUser;
 
-    protected $acl;
+    /**
+     * @var Zend_Acl
+     */
+    protected $_acl;
 
+    /**
+     * @param $acl
+     * @return Cutemloose_Controller_Action_Helper_Form
+     */
     public function setAcl($acl)
     {
-        $this->acl = $acl;
+        $this->_acl = $acl;
 
         return $this;
     }
@@ -36,12 +46,16 @@ class Cutemloose_Controller_Action_Helper_Form extends Zend_Controller_Action_He
      */
     public function getAcl()
     {
-        return $this->acl;
+        return $this->_acl;
     }
 
+    /**
+     * @param $currentUser
+     * @return Cutemloose_Controller_Action_Helper_Form
+     */
     public function setCurrentUser($currentUser)
     {
-        $this->currentUser = $currentUser;
+        $this->_currentUser = $currentUser;
 
         return $this;
     }
@@ -51,9 +65,6 @@ class Cutemloose_Controller_Action_Helper_Form extends Zend_Controller_Action_He
      */
     public function getCurrentUser()
     {
-        return $this->currentUser;
+        return $this->_currentUser;
     }
-
-
-
 }
