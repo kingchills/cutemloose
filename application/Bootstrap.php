@@ -22,6 +22,35 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         return $formHelper;
     }
 
+    /**
+     * Create our navigation container
+     *
+     * @return Zend_Navigation
+     */
+    protected function _initMainNav()
+    {
+        $this->bootstrap('currentUser')
+             ->bootstrap('acl');
+
+        return Cutemloose_Navigation::getMainNavContainer();
+    }
+
+    /**
+     * Set up things our layout will need.
+     *
+     * @return Zend_Layout
+     */
+    protected function _initLayout()
+    {
+        $this->bootstrap('mainNav');
+
+        $layout = Zend_Layout::startMvc(APPLICATION_PATH . '/layouts/scripts');
+
+        $layout->assign('mainNav', $this->getResource('mainNav'));
+
+        return $layout;
+    }
+
 
 }
 

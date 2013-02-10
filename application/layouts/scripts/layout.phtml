@@ -37,5 +37,8 @@ echo $this->doctype();
         <h1>Cut'em Loose</h1>
         <?php echo $this->flashMessages(); ?>
         <?php echo $this->layout()->content; ?>
+        <div class="main_nav">
+            <?php echo $this->navigation()->menu($this->layout()->mainNav); ?>
+        </div>
     </body>
 </html>
