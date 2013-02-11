@@ -62,6 +62,14 @@ class Cutemloose_Navigation
                         )
                     )
                 ),
+                array(
+                    'label'     => 'About Us',
+                    'route'     => 'about'
+                ),
+                array(
+                    'label'     => 'Contact Us',
+                    'route'     => 'contact'
+                ),
             )
         );
 

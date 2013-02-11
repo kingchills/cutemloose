@@ -86,6 +86,28 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 )
             )
         );
+
+        $router->addRoute(
+            'about',
+            new Zend_Controller_Router_Route(
+                '/about',
+                array(
+                    'controller' => 'index',
+                    'action' => 'about'
+                )
+            )
+        );
+
+        $router->addRoute(
+            'contact',
+            new Zend_Controller_Router_Route(
+                '/contact',
+                array(
+                    'controller' => 'index',
+                    'action' => 'contact'
+                )
+            )
+        );
     }
 
 
