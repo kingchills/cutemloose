@@ -32,7 +32,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->bootstrap('currentUser')
              ->bootstrap('acl');
 
-        return Cutemloose_Navigation::getMainNavContainer();
+        $mainNav = Cutemloose_Navigation::getMainNavContainer();
+
+        Zend_View_Helper_Navigation_HelperAbstract::setDefaultAcl($this->getResource('acl'));
+        Zend_View_Helper_Navigation_HelperAbstract::setDefaultRole($this->getResource('currentUser')->getRoleId());
+
+        return $mainNav;
     }
 
     /**
@@ -60,6 +65,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         return $layout;
     }
 
+    /**
+     * Set up our base layer routes
+     *
+     * @return void
+     */
     protected function _initRoutes()
     {
         $router = $this->bootstrap('frontcontroller')

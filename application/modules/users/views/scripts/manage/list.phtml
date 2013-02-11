@@ -1,7 +1,7 @@
 <h3>Users - List</h3>
 
 <p>
-    <a href="<?php echo $this->url(array('module' => 'users', 'controller'=>'manage', 'action' => 'add'), 'default', true); ?>">Add User</a>
+    <a href="<?php echo $this->url(array(), 'add-user', true); ?>">Add User</a>
 </p>
 
 <?php if (count($this->paginator)): ?>
@@ -27,8 +27,8 @@
             <td class="updated"><?php echo $this->date($user->updated); ?></td>
             <td class="last_login"><?php echo $this->date($user->lastLogon, null, 'never'); ?></td>
             <td class="buttons last">
-                <a href="<?php echo $this->url(array('action' => 'edit', 'id' => $user->id, 'page' => null), 'default', false); ?>"><span><span>Edit</span></span></a>
-                <a href="<?php echo $this->url(array('action' => 'delete', 'id' => $user->id, 'page' => null), 'default', false); ?>" onclick="return confirm('Are you sure you want to delete this user?');"><span><span>Delete</span></span></a>
+                <a href="<?php echo $this->url(array('id' => $user->id), 'edit-user', false); ?>"><span><span>Edit</span></span></a>
+                <a href="<?php echo $this->url(array('id' => $user->id), 'delete-user', false); ?>" onclick="return confirm('Are you sure you want to delete this user?');"><span><span>Delete</span></span></a>
             </td>
         </tr>
         <?php endforeach; ?>

@@ -115,7 +115,8 @@ class Users_ManageController extends Zend_Controller_Action
             }
             
         }
-        
+
+        $this->view->userid             = $this->_getParam('id');
         $this->view->editForm           = $editUserHelper->getForm();
         $this->view->changePasswordForm = $changePasswordHelper->getForm();
     }

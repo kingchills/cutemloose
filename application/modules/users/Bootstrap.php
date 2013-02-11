@@ -112,18 +112,20 @@ class Users_Bootstrap extends Zend_Application_Module_Bootstrap
          * Resources
          */
         $userResource  = new Zend_Acl_Resource(Users_Model_DbTable_Users::RESOURCE_USER);
+        $adminResource = new Zend_Acl_Resource(Users_Model_DbTable_Users::RESOURCE_ADMIN);
         $dogResource   = new Zend_Acl_Resource("dog");
         $eventResource = new Zend_Acl_Resource("event");
         $clubResource  = new Zend_Acl_Resource("club");
         
         $acl->addResource($userResource);
-
+        $acl->addResource($adminResource);
         /**
          * Permissions
          */
         
         // admin can manage all users
-        $acl->allow($adminRole, $userResource);
+        $acl->allow($adminRole, $userResource)
+            ->allow($adminRole, $adminResource);
             
         return $acl;
     }
@@ -256,9 +258,9 @@ class Users_Bootstrap extends Zend_Application_Module_Bootstrap
             new Zend_Controller_Router_Route(
                 '/login',
                 array(
-                    'module' => 'users',
+                    'module'     => 'users',
                     'controller' => 'account',
-                    'action' => 'login'
+                    'action'     => 'login'
                 )
             )
         );
@@ -268,9 +270,9 @@ class Users_Bootstrap extends Zend_Application_Module_Bootstrap
             new Zend_Controller_Router_Route(
                 '/logout',
                 array(
-                    'module' => 'users',
+                    'module'     => 'users',
                     'controller' => 'account',
-                    'action' => 'logout'
+                    'action'     => 'logout'
                 )
             )
         );
@@ -280,9 +282,9 @@ class Users_Bootstrap extends Zend_Application_Module_Bootstrap
             new Zend_Controller_Router_Route(
                 '/register',
                 array(
-                    'module' => 'users',
+                    'module'     => 'users',
                     'controller' => 'account',
-                    'action' => 'register'
+                    'action'     => 'register'
                 )
             )
         );
@@ -292,14 +294,50 @@ class Users_Bootstrap extends Zend_Application_Module_Bootstrap
             new Zend_Controller_Router_Route(
                 'user/:id',
                 array(
-                    'module' => 'users',
+                    'module'     => 'users',
                     'controller' => 'manage',
-                    'action' => 'edit',
-                    'id'     => ''
+                    'action'     => 'edit',
+                    'id'         => ''
                 )
             )
         );
 
+        $router->addRoute(
+            'user-list',
+            new Zend_Controller_Router_Route(
+                'users',
+                array(
+                    'module'     => 'users',
+                    'controller' => 'manage',
+                    'action'     => 'list',
+                )
+            )
+        );
+
+        $router->addRoute(
+            'add-user',
+            new Zend_Controller_Router_Route(
+                'user/new',
+                array(
+                    'module'     => 'users',
+                    'controller' => 'manage',
+                    'action'     => 'add',
+                )
+            )
+        );
+
+        $router->addRoute(
+            'delete-user',
+            new Zend_Controller_Router_Route(
+                'user/remove/:id',
+                array(
+                    'module'     => 'users',
+                    'controller' => 'manage',
+                    'action'     => 'delete',
+                    'id'         => '',
+                )
+            )
+        );
     }
 
 }

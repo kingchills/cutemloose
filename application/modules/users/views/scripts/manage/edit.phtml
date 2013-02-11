@@ -1,6 +1,8 @@
 <div class="edit_user">
     <h3>Edit User</h3>
 
+    <a href="<?php echo $this->url(array('id' => $this->userid), 'delete-user', false); ?>" onclick="confirm('Are you sure you would like to delete this profile?');">Delete Profile</a>
+
     <?php echo $this->editForm; ?>
 </div>
 
@@ -10,4 +12,5 @@
     <?php echo $this->changePasswordForm->setAttrib('id','change_password'); ?>
 
     <a href="<?php echo $this->url(array(), 'home', false); ?>">Cancel</a>
+
 </div>

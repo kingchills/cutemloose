@@ -24,41 +24,22 @@ class Users_Model_DbTable_Users extends Zend_Db_Table
      * @var string
      */
     const ROLE_ADMIN = 'admin';
-
-    /**
-     * @var string
-     */
-    const ROLE_USER = 'user';
-
-    /**
-     * @var string
-     */
+    const ROLE_USER  = 'user';
     const ROLE_GUEST = 'guest';
 
     /**
      * @var string
      */
-    const RESOURCE_USER = 'user';
-    
-    /**
-     * @var string
-     */
-    const STATUS_ENABLED = 'enabled';
+    const RESOURCE_USER  = 'user';
+    const RESOURCE_ADMIN = 'admin';
 
     /**
      * @var string
      */
+    const STATUS_ENABLED  = 'enabled';
     const STATUS_DISABLED = 'disabled';
-    
-    /**
-     * @var string
-     */
     const STATUS_INACTIVE = 'inactive';
-
-    /**
-     * @var string
-     */
-    const STATUS_PENDING = 'pending';
+    const STATUS_PENDING  = 'pending';
 
     /**
      * @var array

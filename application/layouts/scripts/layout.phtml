@@ -35,7 +35,7 @@ echo $this->doctype();
     </head>
     <body>
         <div class="welcome"></div>
-            Welcome <?php echo $this->layout()->currentUser->getFriendlyName(); ?><?php if ($this->loggedIn):?> (<a href="<?php echo $this->url(array(), 'logout'); ?>">Logout</a>)<?php endif; ?>
+            Welcome <?php echo $this->layout()->currentUser->getFriendlyName(); ?><?php if ($this->layout()->loggedIn):?> (<a href="<?php echo $this->url(array(), 'logout'); ?>">Logout</a>)<?php endif; ?>
         <h1>Cut'em Loose</h1>
         <?php echo $this->flashMessages(); ?>
         <?php echo $this->layout()->content; ?>

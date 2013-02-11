@@ -34,8 +34,7 @@ class Cutemloose_Navigation
             array(
                 array(
                     'label'      => 'Home',
-                    'controller' => 'index',
-                    'action'     => 'index',
+                    'route'      => 'home',
                 ),
                 array(
                     'label'      => 'My Profile',
@@ -46,6 +45,21 @@ class Cutemloose_Navigation
                     'visible'    => $currentUser->getRoleId() != Users_Model_DbTable_Users::ROLE_GUEST,
                     'params'     => array(
                         'id'     => $currentUser->id,
+                    )
+                ),
+                array(
+                    'label'      => 'Administration',
+                    'uri'        => '/#',
+                    'resource'   => Users_Model_DbTable_Users::RESOURCE_ADMIN,
+                    'pages'      => array(
+                        array(
+                            'label'      => 'User Management',
+                            'module'     => 'users',
+                            'controller' => 'manage',
+                            'action'     => 'list',
+                            'route'      => 'user-list',
+                            'resource'   => Users_Model_DbTable_Users::RESOURCE_USER,
+                        )
                     )
                 ),
             )
